@@ -2,7 +2,11 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { format, isAfter, isBefore } from 'date-fns'
 
+import { useNotify } from '@/composables/useNotify'
+
 import api from '@/services/api'
+
+const { notifyError, notifySuccess } = useNotify()
 
 import type { TInvoice } from '@/types/invoicea'
 import { toCurrency } from '@/utils/to-currency'
@@ -44,7 +48,7 @@ const statusOptions = [
 	'Processada',
 ]
 
-const headers = ref<any>([
+const invoicesHeaders = ref<any>([
 	// {
 	// 	title: 'ID',
 	// 	key: 'id',
@@ -85,6 +89,7 @@ const headers = ref<any>([
 ])
 
 const invoices = ref<TInvoice[]>([])
+const isFetchingInvoices = ref(false)
 
 // Funções auxiliares
 const getStatusColor = (status: string) => {
@@ -118,8 +123,15 @@ const getStatusText = (status: string) => {
 }
 
 async function handleFetchInvoices() {
-	const { data } = await api.get('invoices')
-	invoices.value = data.data
+	isFetchingInvoices.value = true
+	try {
+		const { data } = await api.get('invoices')
+		invoices.value = data.data
+	} catch (error: any) {
+		notifyError(error?.response?.data?.message || 'Error to get invoices')
+	} finally {
+		isFetchingInvoices.value = false
+	}
 }
 
 onMounted(async () => {
@@ -158,6 +170,7 @@ onMounted(async () => {
 							:items="statusOptions"
 							variant="outlined"
 							hide-details
+							:disabled="isFetchingInvoices"
 						></v-select>
 					</v-col>
 
@@ -179,6 +192,7 @@ onMounted(async () => {
 									v-maska:[dateMask]
 									@click:clear="filters.beginDate = null"
 									@input="(value: string) => {}"
+									:disabled="isFetchingInvoices"
 								></v-text-field>
 							</template>
 
@@ -208,6 +222,7 @@ onMounted(async () => {
 									v-maska:[dateMask]
 									@click:clear="filters.endDate = null"
 									@input="(value: string) => {}"
+									:disabled="isFetchingInvoices"
 								></v-text-field>
 							</template>
 
@@ -229,6 +244,7 @@ onMounted(async () => {
 							variant="outlined"
 							hide-details
 							append-inner-icon="mdi-magnify"
+							:disabled="isFetchingInvoices"
 						></v-text-field>
 					</v-col>
 				</v-row>
@@ -236,13 +252,14 @@ onMounted(async () => {
 
 			<v-sheet class="rounded" border="sm">
 				<v-data-table
-					:headers="headers"
+					:headers="invoicesHeaders"
 					:items="invoices"
 					:items-per-page-options="[
 						{ value: 10, title: '10' },
 						{ value: 25, title: '25' },
 						{ value: 50, title: '50' },
 					]"
+					:loading="isFetchingInvoices"
 				>
 					<template #loading>
 						<v-skeleton-loader type="table-row@6"></v-skeleton-loader>

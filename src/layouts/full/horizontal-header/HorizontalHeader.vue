@@ -89,7 +89,12 @@ onMounted(async () => {
 			<!-- <LanguageDD /> -->
 
 			<div class="d-flex align-center">
-				<v-btn :ripple="false" class="mr-3" to="/account/balance/add">
+				<v-btn
+					:ripple="false"
+					class="mr-3"
+					to="/account/balance/add"
+					variant="tonal"
+				>
 					<v-icon>mdi-plus</v-icon>
 					<span>Adicionar</span>
 				</v-btn>

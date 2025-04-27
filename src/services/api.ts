@@ -78,8 +78,8 @@ export async function rentMachine(machineId: number) {
 	return data
 }
 
-export async function getRentedMachines() {
-	const { data } = await api.get('machines')
+export async function getAccountRentedMachines(pagination?: any) {
+	const { data } = await api.get('machines/account')
 	return data
 }
 
