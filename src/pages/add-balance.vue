@@ -42,22 +42,25 @@ const [cardholderName] = defineField('cardholderName')
 const handleSubmitForm = handleSubmit(async values => {
 	try {
 		await addAccountBalance(values)
+		router.push('/invoices')
 		notifySuccess('Request sent')
 	} catch (error: any) {
-		notifyError(error?.response?.data?.message || 'Error')
+		notifyError(error?.response?.data?.message || 'Request error')
 	}
 })
 </script>
 
 <template>
-	<v-container class="py-8">
+	<v-container class="py-8 px-0">
 		<v-sheet class="pa-8 rounded-lg mx-auto" max-width="580" elevation="10">
-			<v-card-title class="text-h4 px-0 mx-0 font-weight-medium">
-				Adicionar saldo
-			</v-card-title>
-			<v-card-subtitle class="mb-6 px-0 mx-0">
-				Preencha os dados abaixo para processar um novo pagamento
-			</v-card-subtitle>
+			<div class="d-flex flex-wrap justify-space-between align-center mb-6">
+				<div>
+					<h1 class="text-h4 font-weight-medium mb-1">Adicionar saldo</h1>
+					<span class="fs-14"
+						>Preencha os dados abaixo para processar um novo pagamento</span
+					>
+				</div>
+			</div>
 
 			<v-form @submit.prevent="handleSubmitForm">
 				<v-row>
@@ -72,6 +75,7 @@ const handleSubmitForm = handleSubmit(async values => {
 							class="mb-4"
 							clearable
 							:error-messages="errors.amount"
+							:disabled="isSubmitting"
 						></CurrencyField>
 
 						<!-- <v-label class="mb-2 font-weight-medium">Descrição</v-label>
@@ -100,6 +104,7 @@ const handleSubmitForm = handleSubmit(async values => {
 								v-maska="'#### #### #### ####'"
 								clearable
 								:error-messages="errors.cardNumber"
+								:disabled="isSubmitting"
 							></v-text-field>
 
 							<v-row>
@@ -116,6 +121,7 @@ const handleSubmitForm = handleSubmit(async values => {
 										v-maska="'##/##'"
 										clearable
 										:error-messages="errors.expiryDate"
+										:disabled="isSubmitting"
 									></v-text-field>
 								</v-col>
 								<v-col cols="6">
@@ -129,6 +135,7 @@ const handleSubmitForm = handleSubmit(async values => {
 										v-maska="'###'"
 										clearable
 										:error-messages="errors.cvv"
+										:disabled="isSubmitting"
 									></v-text-field>
 								</v-col>
 							</v-row>
@@ -141,6 +148,7 @@ const handleSubmitForm = handleSubmit(async values => {
 								variant="outlined"
 								clearable
 								:error-messages="errors.cardholderName"
+								:disabled="isSubmitting"
 							></v-text-field>
 						</v-sheet>
 					</v-col>
@@ -152,7 +160,7 @@ const handleSubmitForm = handleSubmit(async values => {
 							<p class="">Subtotal</p>
 						</v-col>
 						<v-col cols="6" class="text-right">
-							<p class="">{{ toCurrency(0) }}</p>
+							<p class="">{{ toCurrency(amount) }}</p>
 						</v-col>
 					</v-row>
 					<!-- <v-row class="py-2">
@@ -170,7 +178,7 @@ const handleSubmitForm = handleSubmit(async values => {
 						</v-col>
 						<v-col cols="6" class="text-right">
 							<p class="font-weight-medium">
-								{{ toCurrency(0) }}
+								{{ toCurrency(amount) }}
 							</p>
 						</v-col>
 					</v-row>

@@ -11,6 +11,11 @@ const routes = {
 			path: '/machines',
 			component: () => import('@/pages/machines.vue'),
 		},
+		{
+			name: '',
+			path: '/machines/rent',
+			component: () => import('@/pages/rent-machine.vue'),
+		},
 	],
 }
 

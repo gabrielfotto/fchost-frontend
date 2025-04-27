@@ -4,7 +4,7 @@ import { format, isAfter, isBefore } from 'date-fns'
 
 import api from '@/services/api'
 
-import type { TInvoice } from '@/types/invoice'
+import type { TInvoice } from '@/types/invoicea'
 import { toCurrency } from '@/utils/to-currency'
 import { EInvoiceStatus } from '@/enums/invoice-status'
 
@@ -36,14 +36,20 @@ const allowedEndDates = computed(() => (d: any) => {
 	return !isAfter(d, new Date())
 })
 
-const statusOptions = ['Todos', 'Aprovado', 'Pendente', 'Rejeitado']
+const statusOptions = [
+	'Todos',
+	'Aprovada',
+	'Pendente',
+	'Rejeitada',
+	'Processada',
+]
 
 const headers = ref<any>([
-	{
-		title: 'ID',
-		key: 'id',
-		sortable: false,
-	},
+	// {
+	// 	title: 'ID',
+	// 	key: 'id',
+	// 	sortable: false,
+	// },
 	{
 		title: 'Data',
 		key: 'createdAt',
@@ -62,7 +68,7 @@ const headers = ref<any>([
 	},
 	{
 		title: 'Cartão',
-		key: 'cardLastDigits',
+		key: 'cardLast4Digits',
 		sortable: false,
 		align: 'end',
 	},
@@ -84,11 +90,13 @@ const invoices = ref<TInvoice[]>([])
 const getStatusColor = (status: string) => {
 	switch (status) {
 		case EInvoiceStatus.APPROVED:
-			return 'success'
+			return 'info'
 		case EInvoiceStatus.PENDING:
-			return '#F59E0B'
+			return 'warning'
 		case EInvoiceStatus.REJECTED:
-			return '#EF4444'
+			return 'error'
+		case EInvoiceStatus.PROCESSED:
+			return 'success'
 		default:
 			return '#F59E0B'
 	}
@@ -102,6 +110,8 @@ const getStatusText = (status: string) => {
 			return 'Pendente'
 		case EInvoiceStatus.REJECTED:
 			return 'Rejeitada'
+		case EInvoiceStatus.PROCESSED:
+			return 'Processada'
 		default:
 			return 'Pendente'
 	}
@@ -118,14 +128,14 @@ onMounted(async () => {
 </script>
 
 <template>
-	<v-container class="py-8 px-0" max-width="1200">
+	<v-container class="py-8 px-0">
 		<v-sheet class="pa-8 rounded mx-auto" elevation="10">
 			<div class="d-flex flex-wrap justify-space-between align-center mb-6">
 				<div>
 					<h1 class="text-h4 font-weight-medium mb-1">Faturas</h1>
-					<p class="text-grey-lighten-1">
+					<span class="fs-14">
 						Gerencie suas faturas e acompanhe os pagamentos
-					</p>
+					</span>
 				</div>
 
 				<!-- <v-btn
@@ -252,13 +262,13 @@ onMounted(async () => {
 						}}</span>
 					</template>
 
-					<template #item.cardLastDigits="{ item }">
+					<template #item.cardLast4Digits="{ item }">
 						<div class="d-flex align-center justify-end">
 							<span class="mr-1">****</span>
 							<span class="mr-1">****</span>
 							<span class="mr-1">****</span>
 							<span class="font-weight-medium">
-								{{ item.cardLastDigits }}
+								{{ item.cardLast4Digits }}
 							</span>
 						</div>
 					</template>

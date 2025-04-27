@@ -1,5 +1,5 @@
 const routes = {
-	path: '/invoices',
+	path: '/',
 	meta: {
 		requiresAuth: true,
 	},

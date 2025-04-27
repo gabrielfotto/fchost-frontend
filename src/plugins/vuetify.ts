@@ -11,7 +11,7 @@ import { VueDraggableNext } from 'vue-draggable-next'
 import { VTimePicker } from 'vuetify/labs/VTimePicker'
 import { VTreeview } from 'vuetify/labs/VTreeview'
 
-// import { BLUE_THEME} from '@/theme/LightTheme';
+// import { BLUE_THEME} from '@/theme/LightTheme'
 import {
 	BLUE_THEME,
 	AQUA_THEME,

@@ -15,6 +15,7 @@ const validationSchema = yup.object({
 })
 
 const { meta, errors, defineField, handleSubmit, isSubmitting } = useForm({
+	validateOnMount: true,
 	validationSchema,
 	initialValues: {
 		apiKey: '',
@@ -35,12 +36,12 @@ const handleSubmitForm = handleSubmit(async ({ apiKey }) => {
 <template>
 	<v-container class="d-flex align-center justify-center" style="height: 100%">
 		<v-sheet width="600" class="pa-8 rounded" elevation="10">
-			<v-card-title class="text-center text-h4 font-weight-medium">
-				Autenticação Gateway
-			</v-card-title>
-			<v-card-subtitle class="text-center mb-6">
-				Insira sua API Key para acessar o sistema
-			</v-card-subtitle>
+			<div class="d-flex flex-wrap justify-center align-center mb-6">
+				<div class="text-center">
+					<h1 class="text-h4 font-weight-medium mb-1">Autenticação Gateway</h1>
+					<span class="fs-14">Insira sua API Key para acessar o sistema</span>
+				</div>
+			</div>
 
 			<v-card-text>
 				<v-form @submit.prevent="handleSubmitForm">
@@ -49,6 +50,7 @@ const handleSubmitForm = handleSubmit(async ({ apiKey }) => {
 						<v-col cols="12">
 							<v-text-field
 								v-model="apiKey"
+								autofocus
 								density="compact"
 								placeholder="Digite sua API Key"
 								class="rounded-r-0"

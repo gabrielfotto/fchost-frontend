@@ -1,42 +1,52 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
-import { useCustomizerStore } from '../../../stores/customizer'
+import { ref, watch, onMounted } from 'vue'
+import { useCustomizerStore } from '@/stores/customizer'
+
+import { getAccountBalance } from '@/services/api'
+
 // Icon Imports
-import {
-	GridDotsIcon,
-	LanguageIcon,
-	SearchIcon,
-	Menu2Icon,
-	BellRingingIcon,
-	ShoppingCartIcon,
-} from 'vue-tabler-icons'
+import { GridDotsIcon, Menu2Icon } from 'vue-tabler-icons'
 import Logo from '../logo/Logo.vue'
 
 // dropdown imports
 import LanguageDD from '../vertical-header/LanguageDD.vue'
-import NotificationDD from '../vertical-header/NotificationDD.vue'
-import ProfileDD from '../vertical-header/ProfileDD.vue'
 import Navigations from '../vertical-header/Navigations.vue'
-import Searchbar from '../vertical-header/Searchbar.vue'
 import RightMobileSidebar from '../vertical-header/RightMobileSidebar.vue'
 
 import { useAuthStore } from '@/stores/auth'
+import { toCurrency } from '@/utils/to-currency'
 
 const authStore = useAuthStore()
 
-const customizer = useCustomizerStore()
-const showSearch = ref(false)
-const drawer = ref(false)
+const customizerStore = useCustomizerStore()
 const appsdrawer = ref(false)
-const priority = ref(customizer.setHorizontalLayout ? 0 : 0)
+const priority = ref(customizerStore.setHorizontalLayout ? 0 : 0)
 
-function searchbox() {
-	showSearch.value = !showSearch.value
-}
+const accountBalance = ref()
+const fetchAccountBalanceInterval = ref()
 
 watch(priority, newPriority => {
 	// yes, console.log() is a side effect
 	priority.value = newPriority
+})
+
+async function handleGetAccountBalance() {
+	if (!authStore.acc) {
+		return
+	}
+
+	try {
+		accountBalance.value = await getAccountBalance(authStore.acc.id)
+	} catch (error) {}
+}
+
+onMounted(async () => {
+	accountBalance.value = authStore.acc?.balance || 0
+	await handleGetAccountBalance()
+
+	fetchAccountBalanceInterval.value = setInterval(async () => {
+		await handleGetAccountBalance()
+	}, 60000)
 })
 </script>
 
@@ -49,7 +59,7 @@ watch(priority, newPriority => {
 	>
 		<div
 			:class="
-				customizer.boxed
+				customizerStore.boxed
 					? 'maxWidth v-toolbar__content'
 					: 'v-toolbar__content px-6'
 			"
@@ -62,102 +72,65 @@ watch(priority, newPriority => {
 				icon
 				rounded="sm"
 				variant="flat"
-				@click.stop="customizer.SET_SIDEBAR_DRAWER"
+				@click.stop="customizerStore.SET_SIDEBAR_DRAWER"
 				size="small"
 			>
 				<Menu2Icon size="20" stroke-width="1.5" />
 			</v-btn>
 
-			<!-- search mobile -->
-			<v-btn
-				class="hidden-lg-and-up ml-3"
-				icon
-				rounded="sm"
-				variant="flat"
-				size="small"
-				@click="searchbox"
-			>
-				<SearchIcon size="17" stroke-width="1.5" />
-			</v-btn>
-
-			<v-sheet v-if="showSearch" class="search-sheet v-col-12">
-				<Searchbar :closesearch="searchbox" />
-			</v-sheet>
-
-			<!-- ------------------------------------------------>
-			<!-- Search part -->
-			<!-- ------------------------------------------------>
-			<!-- <v-sheet class="mx-2 d-none d-lg-block">
-				<Searchbar />
-			</v-sheet> -->
-
-			<!---/Search part -->
-
-			<!-- ------------------------------------------------>
-			<!-- Mega menu -->
-			<!-- ------------------------------------------------>
 			<div class="hidden-md-and-down ml-6">
 				<Navigations />
 			</div>
 
 			<v-spacer />
 			<!-- ---------------------------------------------- -->
-			<!---right part -->
-			<!-- ---------------------------------------------- -->
-
-			<!-- ---------------------------------------------- -->
 			<!-- translate -->
 			<!-- ---------------------------------------------- -->
 			<!-- <LanguageDD /> -->
 
 			<div class="d-flex align-center">
-				<v-btn
-					variant="plain"
-					:ripple="false"
-					class="mr-3"
-					to="/account/balance/add"
-				>
+				<v-btn :ripple="false" class="mr-3" to="/account/balance/add">
 					<v-icon>mdi-plus</v-icon>
 					<span>Adicionar</span>
 				</v-btn>
 
 				<v-chip color="success" variant="flat" label>
-					<span class="font-weight-medium">Saldo: R$ 1.989,00</span>
+					<span class="font-weight-medium"
+						>Saldo: {{ toCurrency(accountBalance) }}</span
+					>
 				</v-chip>
 			</div>
 
 			<v-divider vertical class="mx-6"></v-divider>
 
-			<v-btn
-				v-if="customizer.actTheme.includes('DARK')"
-				@click="customizer.SET_THEME('PURPLE_THEME')"
-				icon="mdi-white-balance-sunny"
-				size="small"
+			<v-tooltip
+				v-if="customizerStore.actTheme.includes('DARK')"
+				location="bottom"
 			>
-			</v-btn>
+				<template #activator="{ props }">
+					<v-btn
+						v-bind="props"
+						@click="customizerStore.SET_THEME('PURPLE_THEME')"
+						icon="mdi-white-balance-sunny"
+						size="small"
+					>
+					</v-btn>
+				</template>
+				<span>Light</span>
+			</v-tooltip>
 
-			<v-btn
-				v-else
-				@click="customizer.SET_THEME('DARK_PURPLE_THEME')"
-				icon="mdi-moon-waxing-gibbous"
-				size="small"
-			>
-			</v-btn>
-
-			<!-- ---------------------------------------------- -->
-			<!-- Notification -->
-			<!-- ---------------------------------------------- -->
-
-			<!-- <NotificationDD /> -->
-
-			<!-- ---------------------------------------------- -->
-			<!-- ShoppingCart -->
-			<!-- ---------------------------------------------- -->
-			<!-- <v-btn icon variant="text" color="primary" to="/ecommerce/checkout">
-				<v-badge color="error" :content="0">
-					<ShoppingCartIcon stroke-width="1.5" size="22" />
-				</v-badge>
-			</v-btn> -->
+			<v-tooltip v-else location="bottom">
+				<template #activator="{ props }">
+					<v-btn
+						v-bind="props"
+						@click="customizerStore.SET_THEME('DARK_PURPLE_THEME')"
+						icon="mdi-moon-waxing-gibbous"
+						size="small"
+					>
+					</v-btn>
+				</template>
+				<span>Dark</span>
+			</v-tooltip>
 
 			<!-- right sidebar -->
 			<v-btn
@@ -169,13 +142,6 @@ watch(priority, newPriority => {
 			>
 				<GridDotsIcon size="17" stroke-width="1.5" />
 			</v-btn>
-
-			<!-- ---------------------------------------------- -->
-			<!-- User Profile -->
-			<!-- ---------------------------------------------- -->
-			<div class="ml-3 mr-sm-0 mr-3">
-				<!-- <ProfileDD /> -->
-			</div>
 
 			<v-btn
 				color="error"

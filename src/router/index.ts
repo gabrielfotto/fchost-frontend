@@ -33,7 +33,7 @@ router.beforeEach(async (to, from, next) => {
 			return next('/')
 		} else next()
 	} else if (authStore.acc) {
-		next('/invoices/list')
+		next('/machines')
 	} else {
 		next()
 	}

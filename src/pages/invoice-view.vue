@@ -7,7 +7,7 @@ const downloadPDF = () => {
 </script>
 
 <template>
-	<v-container class="py-8">
+	<v-container class="py-8 px-0">
 		<v-sheet class="pa-8 rounded mx-auto" max-width="680" elevation="10">
 			<div class="d-flex flex-wrap align-center mb-4">
 				<v-tooltip location="left">
@@ -19,7 +19,7 @@ const downloadPDF = () => {
 							class="mr-4"
 							size="small"
 							icon="mdi-arrow-left"
-							to="/invoices/list"
+							to="/invoices"
 						>
 						</v-btn>
 					</template>

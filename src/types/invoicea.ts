@@ -7,6 +7,6 @@ export type TInvoice = {
 	description: string
 	// paymentType: string
 	status: EInvoiceStatus
-	cardLastDigits: string
+	cardLast4Digits: string
 	createdAt: string
 }
