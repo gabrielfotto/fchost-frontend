@@ -68,10 +68,13 @@ import { HelpIcon, ChevronDownIcon } from 'vue-tabler-icons'
 			</div>
 		</v-sheet> -->
 	</v-menu>
-	<v-btn variant="text" color="primary" to="/invoices/create" class="mr-3"
-		>Criar Fatura
+	<v-btn variant="text" color="primary" to="/machines" class="mr-3"
+		>Máquinas
 	</v-btn>
-	<v-btn variant="text" color="primary" to="/invoices/list" class="mr-3"
-		>Ver Faturas
+	<v-btn variant="text" color="primary" to="/invoices" class="mr-3"
+		>Faturas
+	</v-btn>
+	<v-btn variant="text" color="primary" to="/transactions" class="mr-3"
+		>Transações
 	</v-btn>
 </template>

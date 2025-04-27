@@ -1,11 +1,35 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useForm } from 'vee-validate'
+import * as yup from 'yup'
 
-const apiKey = ref('')
+import { useNotify } from '@/composables/useNotify'
 
-const submitForm = () => {
-	console.log('Enviando API Key:', apiKey.value)
-}
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
+const { notifyError } = useNotify()
+
+const validationSchema = yup.object({
+	apiKey: yup.string().required('Campo obrigatório'),
+})
+
+const { meta, errors, defineField, handleSubmit, isSubmitting } = useForm({
+	validationSchema,
+	initialValues: {
+		apiKey: '',
+	},
+})
+
+const [apiKey] = defineField('apiKey')
+
+const handleSubmitForm = handleSubmit(async ({ apiKey }) => {
+	try {
+		await authStore.login(apiKey)
+	} catch (error: any) {
+		notifyError(error?.response?.data?.message || 'Error')
+	}
+})
 </script>
 
 <template>
@@ -19,16 +43,17 @@ const submitForm = () => {
 			</v-card-subtitle>
 
 			<v-card-text>
-				<v-form @submit.prevent="submitForm">
-					<p class="font-weight-medium mb-2">API Key</p>
+				<v-form @submit.prevent="handleSubmitForm">
+					<p class="font-weight-medium mb-2">API Key *</p>
 					<v-row>
 						<v-col cols="12">
 							<v-text-field
 								v-model="apiKey"
 								density="compact"
 								placeholder="Digite sua API Key"
-								hide-details
 								class="rounded-r-0"
+								:error-messages="errors.apiKey"
+								:disabled="isSubmitting"
 							>
 								<template #append>
 									<v-btn
@@ -37,7 +62,8 @@ const submitForm = () => {
 										width="100%"
 										class="rounded-l-0"
 										type="submit"
-										:disabled="!apiKey"
+										:disabled="!meta.valid"
+										:loading="isSubmitting"
 									>
 										<v-icon>mdi-arrow-right</v-icon>
 									</v-btn>

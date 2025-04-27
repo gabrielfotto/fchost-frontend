@@ -7,4 +7,46 @@ const api = axios.create({
 	},
 })
 
+export async function validateAccountApiKey(apiKey: string) {
+	const { data } = await api.post(
+		'accounts/api-key/validate',
+		{},
+		{
+			headers: {
+				'X-Api-Key': apiKey,
+			},
+		},
+	)
+
+	return data
+}
+
+export async function addAccountBalance({
+	amount,
+	cardNumber,
+	expiryDate,
+	cvv,
+	cardholderName,
+}: {
+	amount: number
+	cardNumber: string
+	expiryDate: string
+	cvv: string
+	cardholderName: string
+}) {
+	const { data } = await api.post('invoices', {
+		amount,
+		description: 'add balance to account',
+		paymentType: 'account-balance',
+		card: {
+			cardNumber,
+			expiryDate,
+			cvv,
+			cardholderName,
+		},
+	})
+
+	return data
+}
+
 export default api

@@ -3,6 +3,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { format, isAfter, isBefore } from 'date-fns'
 
 import api from '@/services/api'
+
 import type { TInvoice } from '@/types/invoice'
 import { toCurrency } from '@/utils/to-currency'
 import { EInvoiceStatus } from '@/enums/invoice-status'
@@ -127,14 +128,14 @@ onMounted(async () => {
 					</p>
 				</div>
 
-				<v-btn
+				<!-- <v-btn
 					color="primary"
 					variant="flat"
 					prepend-icon="mdi-plus"
 					to="/invoices/create"
 				>
 					Nova Fatura
-				</v-btn>
+				</v-btn> -->
 			</div>
 
 			<v-sheet class="pa-4 mb-6 rounded" border="sm">

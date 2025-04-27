@@ -20,14 +20,20 @@ import Navigations from '../vertical-header/Navigations.vue'
 import Searchbar from '../vertical-header/Searchbar.vue'
 import RightMobileSidebar from '../vertical-header/RightMobileSidebar.vue'
 
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
+
 const customizer = useCustomizerStore()
 const showSearch = ref(false)
 const drawer = ref(false)
 const appsdrawer = ref(false)
 const priority = ref(customizer.setHorizontalLayout ? 0 : 0)
+
 function searchbox() {
 	showSearch.value = !showSearch.value
 }
+
 watch(priority, newPriority => {
 	// yes, console.log() is a side effect
 	priority.value = newPriority
@@ -90,9 +96,9 @@ watch(priority, newPriority => {
 			<!-- ------------------------------------------------>
 			<!-- Mega menu -->
 			<!-- ------------------------------------------------>
-			<!-- <div class="hidden-md-and-down ml-6">
+			<div class="hidden-md-and-down ml-6">
 				<Navigations />
-			</div> -->
+			</div>
 
 			<v-spacer />
 			<!-- ---------------------------------------------- -->
@@ -104,15 +110,27 @@ watch(priority, newPriority => {
 			<!-- ---------------------------------------------- -->
 			<!-- <LanguageDD /> -->
 
-			<v-chip color="success" variant="flat" label>
-				<span class="font-weight-medium">Saldo: R$ 1.989,00</span>
-			</v-chip>
+			<div class="d-flex align-center">
+				<v-btn
+					variant="plain"
+					:ripple="false"
+					class="mr-3"
+					to="/account/balance/add"
+				>
+					<v-icon>mdi-plus</v-icon>
+					<span>Adicionar</span>
+				</v-btn>
+
+				<v-chip color="success" variant="flat" label>
+					<span class="font-weight-medium">Saldo: R$ 1.989,00</span>
+				</v-chip>
+			</div>
 
 			<v-divider vertical class="mx-6"></v-divider>
 
 			<v-btn
 				v-if="customizer.actTheme.includes('DARK')"
-				@click="customizer.SET_THEME('BLUE_THEME')"
+				@click="customizer.SET_THEME('PURPLE_THEME')"
 				icon="mdi-white-balance-sunny"
 				size="small"
 			>
@@ -120,7 +138,7 @@ watch(priority, newPriority => {
 
 			<v-btn
 				v-else
-				@click="customizer.SET_THEME('DARK_BLUE_THEME')"
+				@click="customizer.SET_THEME('DARK_PURPLE_THEME')"
 				icon="mdi-moon-waxing-gibbous"
 				size="small"
 			>
@@ -159,7 +177,12 @@ watch(priority, newPriority => {
 				<!-- <ProfileDD /> -->
 			</div>
 
-			<v-btn color="error" variant="outlined" class="ml-4">
+			<v-btn
+				color="error"
+				variant="outlined"
+				class="ml-4"
+				@click="authStore.logout()"
+			>
 				<span>Logout</span>
 				<v-icon end>mdi-logout</v-icon>
 			</v-btn>

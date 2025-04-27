@@ -1,34 +1,31 @@
 import { defineStore } from 'pinia'
 import { router } from '@/router'
-import { fetchWrapper } from '@/utils/helpers/fetch-wrapper'
+import { useCookie } from '@/composables/useCookie'
 
-const baseUrl = `${import.meta.env.VITE_API_URL}/users`
+import { validateAccountApiKey } from '@/services/api'
+
+const ACC_KEY = '_fcpay_acc'
+
+const cookie = useCookie()
+const acc = cookie.get(ACC_KEY)
 
 export const useAuthStore = defineStore({
 	id: 'auth',
 	state: () => ({
-		// initialize state from local storage to enable user to stay logged in
-		// @ts-ignore
-		user: JSON.parse(localStorage.getItem('user')),
+		acc,
 		returnUrl: null,
 	}),
-	actions: {
-		async login(username: string, password: string) {
-			const user = await fetchWrapper.post(`${baseUrl}/authenticate`, {
-				username,
-				password,
-			})
 
-			// update pinia state
-			this.user = user
-			// store user details and jwt in local storage to keep user logged in between page refreshes
-			localStorage.setItem('user', JSON.stringify(user))
-			// redirect to previous url or default to home page
-			router.push(this.returnUrl || '/')
+	actions: {
+		async login(apiKey: string) {
+			this.acc = await validateAccountApiKey(apiKey)
+			cookie.set(ACC_KEY, JSON.stringify(this.acc))
+			router.push(this.returnUrl || '/invoices/list')
 		},
+
 		logout() {
-			this.user = null
-			localStorage.removeItem('user')
+			this.acc = null
+			cookie.remove(ACC_KEY)
 			router.push('/')
 		},
 	},

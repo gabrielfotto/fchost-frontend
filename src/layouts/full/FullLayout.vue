@@ -7,6 +7,11 @@ import HorizontalSidebar from './horizontal-sidebar/HorizontalSidebar.vue'
 import Customizer from './customizer/Customizer.vue'
 import { useCustomizerStore } from '../../stores/customizer'
 import { pl, zhHans } from 'vuetify/locale'
+
+import { useNotifyStore } from '@/stores/notify'
+
+const notifyStore = useNotifyStore()
+
 const customizer = useCustomizerStore()
 </script>
 
@@ -46,6 +51,22 @@ const customizer = useCustomizerStore()
 					</div>
 				</v-container>
 			</v-main>
+
+			<v-snackbar
+				v-model="notifyStore.snackbar.visible"
+				:color="notifyStore.snackbar.color"
+				:timeout="notifyStore.snackbar.timeout"
+			>
+				<span class="fs-16">{{ notifyStore.snackbar.message }}</span>
+				<template #actions>
+					<v-btn
+						icon="mdi-close"
+						size="small"
+						@click="notifyStore.snackbar.visible = false"
+					>
+					</v-btn>
+				</template>
+			</v-snackbar>
 		</v-app>
 	</v-locale-provider>
 </template>
