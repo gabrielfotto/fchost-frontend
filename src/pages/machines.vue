@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
-import { getAccountRentedMachines } from '@/services/api'
+import type { TAccountMachine } from '@/types/machines'
+
+import {
+	getAccountRentedMachines,
+	registerAccountMachineUsage,
+} from '@/services/api'
 import { useNotify } from '@/composables/useNotify'
+import { toCurrency } from '@/utils/to-currency'
 
 const { notifyError, notifySuccess } = useNotify()
 
@@ -16,19 +22,28 @@ const rentedMachinesHeaders = ref<any>([
 		title: 'vCPU',
 		key: 'vcpu',
 		sortable: false,
+		align: 'end',
 	},
 	{
 		title: 'RAM',
 		key: 'ram',
 		sortable: false,
+		align: 'end',
 	},
 	{
 		title: 'Preço/hora',
 		key: 'pricePerHour',
 		sortable: false,
+		align: 'end',
 	},
 	{
-		title: 'Gasto',
+		title: 'Total de Gasto',
+		key: 'cost',
+		sortable: false,
+		align: 'end',
+	},
+	{
+		title: 'Total de Horas',
 		key: 'cost',
 		sortable: false,
 		align: 'end',
@@ -40,8 +55,11 @@ const rentedMachinesHeaders = ref<any>([
 	},
 ])
 
-const rentedMachines = ref([])
+const rentedMachines = ref<TAccountMachine[]>([])
 const isFetchingRentedMachines = ref(false)
+
+const isRegisteringAccountMachineUsage = ref(false)
+const registeringAccountMachineUsageIndex = ref(-1)
 
 async function handleFetchRentedMachines() {
 	isFetchingRentedMachines.value = true
@@ -54,6 +72,27 @@ async function handleFetchRentedMachines() {
 		)
 	} finally {
 		isFetchingRentedMachines.value = false
+	}
+}
+
+async function handleRegisterAccountMachineUsage(
+	event: Event,
+	accountMachineId: number,
+	machineStatus: string,
+) {
+	event.preventDefault()
+	isRegisteringAccountMachineUsage.value = true
+	try {
+		const status = machineStatus === 'on' ? 'off' : 'on'
+		await registerAccountMachineUsage(accountMachineId, status)
+
+		rentedMachines.value[registeringAccountMachineUsageIndex.value].status =
+			status
+	} catch (error: any) {
+		notifyError(error?.response?.data?.message || 'Error')
+	} finally {
+		isRegisteringAccountMachineUsage.value = false
+		registeringAccountMachineUsageIndex.value = -1
 	}
 }
 
@@ -97,12 +136,63 @@ onMounted(async () => {
 								<v-skeleton-loader type="table-row@10"></v-skeleton-loader>
 							</template>
 
-							<template #item.status="{ item }">
+							<template #item.name="{ item }">
+								<span class="font-weight-medium">{{ item.machine.name }}</span>
+							</template>
+
+							<template #item.vcpu="{ item }">
+								<span>{{ item.machine.vcpu }}</span>
+							</template>
+
+							<template #item.ram="{ item }">
+								<span>{{ item.machine.ram }}</span>
+							</template>
+
+							<template #item.pricePerHour="{ item }">
+								<span>{{ toCurrency(item.machine.pricePerHour) }}</span>
+							</template>
+
+							<!-- <template #item.totalUsageCost="{ item }">
+								<span>{{ toCurrency(item.cost) }}</span>
+							</template> -->
+
+							<!-- <template #item.totalUsageHours="{ item }">
+								<span>{{ toCurrency(item.totalUsageHours) }}</span>
+							</template> -->
+
+							<template #item.status="{ item, index }">
 								<v-switch
-									:model-value="false"
-									label="off loading"
-									loading="warning"
-								></v-switch>
+									@click="
+										(event: Event) => {
+											registeringAccountMachineUsageIndex = index
+											handleRegisterAccountMachineUsage(
+												event,
+												item.id,
+												item.status,
+											)
+										}
+									"
+									:model-value="item.status"
+									:label="item.status.toUpperCase()"
+									:color="item.status === 'on' ? 'success' : ''"
+									true-value="on"
+									false-value="off"
+									:loading="
+										isRegisteringAccountMachineUsage &&
+										registeringAccountMachineUsageIndex === index
+											? 'warning'
+											: false
+									"
+									:disabled="
+										isRegisteringAccountMachineUsage &&
+										registeringAccountMachineUsageIndex === index
+									"
+									hide-details
+								>
+									<template #label="{ label }">
+										<span class="font-weight-medium">{{ label }}</span>
+									</template>
+								</v-switch>
 							</template>
 						</v-data-table>
 					</v-sheet>

@@ -5,3 +5,9 @@ export type TMachine = {
 	ram: number
 	pricePerHour: number
 }
+
+export type TAccountMachine = {
+	id: number
+	status: string
+	machine: TMachine
+}

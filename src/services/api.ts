@@ -83,4 +83,16 @@ export async function getAccountRentedMachines(pagination?: any) {
 	return data
 }
 
+export async function registerAccountMachineUsage(
+	accountMachineId: number,
+	machineStatus: string,
+) {
+	const { data } = await api.post(`machines/usage/register`, {
+		accountMachineId,
+		machineStatus,
+	})
+
+	return data
+}
+
 export default api
