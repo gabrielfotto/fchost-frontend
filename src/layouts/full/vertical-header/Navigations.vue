@@ -71,10 +71,10 @@ import { HelpIcon, ChevronDownIcon } from 'vue-tabler-icons'
 	<v-btn variant="text" color="primary" to="/machines" class="mr-3"
 		>Máquinas
 	</v-btn>
-	<v-btn variant="text" color="primary" to="/invoices" class="mr-3"
-		>Faturas
-	</v-btn>
 	<v-btn variant="text" color="primary" to="/transactions" class="mr-3"
 		>Transações
+	</v-btn>
+	<v-btn variant="text" color="primary" to="/invoices" class="mr-3"
+		>Faturas
 	</v-btn>
 </template>

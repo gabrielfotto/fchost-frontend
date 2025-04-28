@@ -7,6 +7,7 @@ import {
 	getAccountRentedMachines,
 	registerAccountMachineUsage,
 } from '@/services/api'
+
 import { useNotify } from '@/composables/useNotify'
 import { toCurrency } from '@/utils/to-currency'
 
@@ -88,8 +89,12 @@ async function handleRegisterAccountMachineUsage(
 
 		rentedMachines.value[registeringAccountMachineUsageIndex.value].status =
 			status
+
+		notifySuccess('Machine updated')
 	} catch (error: any) {
-		notifyError(error?.response?.data?.message || 'Error')
+		notifyError(
+			error?.response?.data?.message || 'Error to register machine usage',
+		)
 	} finally {
 		isRegisteringAccountMachineUsage.value = false
 		registeringAccountMachineUsageIndex.value = -1
