@@ -9,5 +9,7 @@ export type TMachine = {
 export type TAccountMachine = {
 	id: number
 	status: string
+	totalUsageCost: number
+	totalUsageHours: number
 	machine: TMachine
 }

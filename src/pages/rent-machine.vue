@@ -38,6 +38,10 @@ async function handleRentMachine(machineId: number) {
 	}
 }
 
+function convertMbToGb(value: number) {
+	return value / 1024
+}
+
 onMounted(async () => {
 	await handleGetMachines()
 })
@@ -69,7 +73,9 @@ onMounted(async () => {
 							<v-divider class="my-1"></v-divider>
 							<div class="d-flex align-center justify-space-between">
 								<span>RAM</span>
-								<span class="font-weight-medium">{{ machine.ram }}</span>
+								<span class="font-weight-medium"
+									>{{ convertMbToGb(machine.ram) }} GB</span
+								>
 							</div>
 							<v-divider class="my-1"></v-divider>
 							<div class="d-flex align-center justify-space-between">

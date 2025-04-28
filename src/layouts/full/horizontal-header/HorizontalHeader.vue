@@ -89,21 +89,25 @@ onMounted(async () => {
 			<!-- <LanguageDD /> -->
 
 			<div class="d-flex align-center">
+				<v-chip
+					color="success"
+					variant="flat"
+					label
+					:style="{ height: '36px' }"
+				>
+					<span class="font-weight-medium"
+						>Saldo: {{ toCurrency(accountBalance) }}</span
+					>
+				</v-chip>
 				<v-btn
 					:ripple="false"
-					class="mr-3"
+					class="ml-3"
 					to="/account/balance/add"
 					variant="tonal"
 				>
 					<v-icon>mdi-plus</v-icon>
 					<span>Adicionar</span>
 				</v-btn>
-
-				<v-chip color="success" variant="flat" label>
-					<span class="font-weight-medium"
-						>Saldo: {{ toCurrency(accountBalance) }}</span
-					>
-				</v-chip>
 			</div>
 
 			<v-divider vertical class="mx-6"></v-divider>

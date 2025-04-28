@@ -2,7 +2,6 @@
 import { ref, onMounted } from 'vue'
 
 import type { TAccountMachine } from '@/types/machines'
-
 import {
 	getAccountRentedMachines,
 	registerAccountMachineUsage,
@@ -39,13 +38,13 @@ const rentedMachinesHeaders = ref<any>([
 	},
 	{
 		title: 'Total de Gasto',
-		key: 'cost',
+		key: 'totalUsageCost',
 		sortable: false,
 		align: 'end',
 	},
 	{
 		title: 'Total de Horas',
-		key: 'cost',
+		key: 'totalUsageHours',
 		sortable: false,
 		align: 'end',
 	},
@@ -157,13 +156,16 @@ onMounted(async () => {
 								<span>{{ toCurrency(item.machine.pricePerHour) }}</span>
 							</template>
 
-							<!-- <template #item.totalUsageCost="{ item }">
-								<span>{{ toCurrency(item.cost) }}</span>
-							</template> -->
+							<template #item.totalUsageCost="{ item }">
+								<span>{{ toCurrency(item.totalUsageCost) }}</span>
+							</template>
 
-							<!-- <template #item.totalUsageHours="{ item }">
-								<span>{{ toCurrency(item.totalUsageHours) }}</span>
-							</template> -->
+							<template #item.totalUsageHours="{ item }">
+								<span v-if="Math.floor(item.totalUsageHours) === 1"
+									>{{ Math.floor(item.totalUsageHours) }} h</span
+								>
+								<span v-else>{{ Math.floor(item.totalUsageHours) }} hs</span>
+							</template>
 
 							<template #item.status="{ item, index }">
 								<v-switch
