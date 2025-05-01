@@ -5,12 +5,12 @@ import { format, isAfter, isBefore } from 'date-fns'
 import { useNotify } from '@/composables/useNotify'
 
 import api from '@/services/api'
-
-const { notifyError, notifySuccess } = useNotify()
-
 import type { TInvoice } from '@/types/invoices'
+
 import { toCurrency } from '@/utils/to-currency'
 import { EInvoiceStatus } from '@/enums/invoice-status'
+
+const { notifyError, notifySuccess } = useNotify()
 
 const dateMask = { mask: '##/##/####' }
 
