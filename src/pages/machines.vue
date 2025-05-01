@@ -157,11 +157,16 @@ onMounted(async () => {
 							</template>
 
 							<template #item.totalUsageCost="{ item }">
-								<span>{{ toCurrency(item.totalUsageCost) }}</span>
+								<span>{{
+									toCurrency(item.totalUsageCost, { fractionDigits: 4 })
+								}}</span>
 							</template>
 
 							<template #item.totalUsageHours="{ item }">
-								<span v-if="Math.floor(item.totalUsageHours) === 1"
+								<span v-if="parseFloat(item.totalUsageHours) < 1"
+									>Menos de 1h</span
+								>
+								<span v-else-if="Math.floor(item.totalUsageHours) === 1"
 									>{{ Math.floor(item.totalUsageHours) }} h</span
 								>
 								<span v-else>{{ Math.floor(item.totalUsageHours) }} hs</span>

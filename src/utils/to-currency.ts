@@ -1,10 +1,14 @@
-export function toCurrency(value: number, noDecimal = false) {
+export function toCurrency(
+	value: number,
+	options?: { noDecimal?: boolean; fractionDigits?: number },
+) {
 	const currencyValue = new Intl.NumberFormat('pt-BR', {
 		style: 'currency',
 		currency: 'BRL',
+		minimumFractionDigits: options?.fractionDigits || 2,
 	}).format(value)
 
-	if (noDecimal) {
+	if (options?.noDecimal) {
 		return currencyValue.slice(0, -3)
 	}
 
