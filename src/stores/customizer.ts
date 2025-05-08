@@ -3,7 +3,7 @@ import config from '@/config'
 
 import { useCookie } from '@/composables/useCookie'
 
-const THEME_KEY = '_fcpay_theme'
+const THEME_KEY = '_fchost_theme'
 
 const cookie = useCookie()
 const actTheme = cookie.get(THEME_KEY)
