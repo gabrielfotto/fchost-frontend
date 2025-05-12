@@ -163,8 +163,10 @@ onMounted(async () => {
 							</template>
 
 							<template #item.totalUsageHours="{ item }">
-								<span v-if="parseFloat(item.totalUsageHours) == 0"></span>
-								<span v-else-if="parseFloat(item.totalUsageHours) < 1"
+								<span
+									v-if="parseFloat(String(item.totalUsageHours)) == 0"
+								></span>
+								<span v-else-if="parseFloat(String(item.totalUsageHours)) < 1"
 									>Menos de 1h</span
 								>
 								<span v-else-if="Math.floor(item.totalUsageHours) === 1"
