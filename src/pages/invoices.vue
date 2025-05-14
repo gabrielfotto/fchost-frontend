@@ -42,9 +42,9 @@ const allowedEndDates = computed(() => (d: any) => {
 
 const statusOptions = [
 	'Todos',
-	'Aprovada',
 	'Pendente',
 	'Rejeitada',
+	'Aprovada',
 	'Processada',
 ]
 
