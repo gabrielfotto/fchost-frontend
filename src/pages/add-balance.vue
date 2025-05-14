@@ -26,10 +26,10 @@ const { meta, errors, defineField, handleSubmit, isSubmitting } = useForm({
 	validationSchema,
 	initialValues: {
 		amount: 0,
-		cardNumber: '',
-		expiryDate: '',
-		cvv: '',
-		cardholderName: '',
+		cardNumber: '5555 5555 5555 5557',
+		expiryDate: '10/30',
+		cvv: '445',
+		cardholderName: 'FCHost LLC - Test',
 	},
 })
 
@@ -69,11 +69,14 @@ const handleSubmitForm = handleSubmit(async values => {
 						<CurrencyField
 							v-model="amount"
 							density="compact"
-							prefix="R$"
-							placeholder="0,00"
+							currency="USD"
+							locale="en-US"
+							prefix="$"
+							placeholder="0.00"
 							variant="outlined"
 							class="mb-4"
 							clearable
+							autofocus
 							:error-messages="errors.amount"
 							:disabled="isSubmitting"
 						></CurrencyField>
@@ -96,13 +99,13 @@ const handleSubmitForm = handleSubmit(async values => {
 							>
 							<v-text-field
 								v-model="cardNumber"
+								v-maska="'#### #### #### ####'"
 								density="compact"
 								placeholder="0000 0000 0000 0000"
 								variant="outlined"
 								class="mb-4"
 								append-inner-icon="mdi-credit-card-outline"
-								v-maska="'#### #### #### ####'"
-								clearable
+								readonly
 								:error-messages="errors.cardNumber"
 								:disabled="isSubmitting"
 							></v-text-field>
@@ -114,12 +117,12 @@ const handleSubmitForm = handleSubmit(async values => {
 									>
 									<v-text-field
 										v-model="expiryDate"
+										v-maska="'##/##'"
 										density="compact"
 										placeholder="MM/AA"
 										variant="outlined"
 										class="mb-4"
-										v-maska="'##/##'"
-										clearable
+										readonly
 										:error-messages="errors.expiryDate"
 										:disabled="isSubmitting"
 									></v-text-field>
@@ -128,12 +131,12 @@ const handleSubmitForm = handleSubmit(async values => {
 									<v-label class="mb-2 font-weight-medium">CVV</v-label>
 									<v-text-field
 										v-model="cvv"
+										v-maska="'###'"
 										density="compact"
 										placeholder="123"
 										variant="outlined"
 										class="mb-4"
-										v-maska="'###'"
-										clearable
+										readonly
 										:error-messages="errors.cvv"
 										:disabled="isSubmitting"
 									></v-text-field>
@@ -146,7 +149,7 @@ const handleSubmitForm = handleSubmit(async values => {
 								density="compact"
 								placeholder="Como aparece no cartão"
 								variant="outlined"
-								clearable
+								readonly
 								:error-messages="errors.cardholderName"
 								:disabled="isSubmitting"
 							></v-text-field>
@@ -160,7 +163,7 @@ const handleSubmitForm = handleSubmit(async values => {
 							<p class="">Subtotal</p>
 						</v-col>
 						<v-col cols="6" class="text-right">
-							<p class="">{{ toCurrency(amount) }}</p>
+							<p class="">{{ toCurrency(amount, { currency: 'USD' }) }}</p>
 						</v-col>
 					</v-row>
 					<!-- <v-row class="py-2">
@@ -178,7 +181,7 @@ const handleSubmitForm = handleSubmit(async values => {
 						</v-col>
 						<v-col cols="6" class="text-right">
 							<p class="font-weight-medium">
-								{{ toCurrency(amount) }}
+								{{ toCurrency(amount, { currency: 'USD' }) }}
 							</p>
 						</v-col>
 					</v-row>

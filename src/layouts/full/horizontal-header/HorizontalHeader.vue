@@ -95,7 +95,7 @@ onMounted(async () => {
 					:style="{ height: '36px' }"
 				>
 					<span class="font-weight-medium"
-						>Saldo: {{ toCurrency(accountBalance) }}</span
+						>Saldo: {{ toCurrency(accountBalance, { currency: 'USD' }) }}</span
 					>
 				</v-chip>
 				<v-btn

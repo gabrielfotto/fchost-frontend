@@ -275,7 +275,7 @@ onMounted(async () => {
 
 					<template #item.amount="{ item }">
 						<span class="font-weight-medium">{{
-							toCurrency(item.amount)
+							toCurrency(item.amount, { currency: 'USD' })
 						}}</span>
 					</template>
 

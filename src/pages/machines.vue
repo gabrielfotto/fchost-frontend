@@ -31,6 +31,12 @@ const rentedMachinesHeaders = ref<any>([
 		align: 'end',
 	},
 	{
+		title: 'Disco',
+		key: 'storage',
+		sortable: false,
+		align: 'end',
+	},
+	{
 		title: 'Preço/hora',
 		key: 'pricePerHour',
 		sortable: false,
@@ -152,20 +158,29 @@ onMounted(async () => {
 								<span>{{ item.machine.ram }}</span>
 							</template>
 
+							<template #item.storage="{ item }">
+								<span>{{ item.machine.storage }} GB</span>
+							</template>
+
 							<template #item.pricePerHour="{ item }">
-								<span>{{ toCurrency(item.machine.pricePerHour) }}</span>
+								<span>{{
+									toCurrency(item.machine.pricePerHour, { currency: 'USD' })
+								}}</span>
 							</template>
 
 							<template #item.totalUsageCost="{ item }">
 								<span>{{
-									toCurrency(item.totalUsageCost, { fractionDigits: 4 })
+									toCurrency(item.totalUsageCost, {
+										currency: 'USD',
+										fractionDigits: 4,
+									})
 								}}</span>
 							</template>
 
 							<template #item.totalUsageHours="{ item }">
-								<span
-									v-if="parseFloat(String(item.totalUsageHours)) == 0"
-								></span>
+								<span v-if="parseFloat(String(item.totalUsageHours)) == 0"
+									>-</span
+								>
 								<span v-else-if="parseFloat(String(item.totalUsageHours)) < 1"
 									>Menos de 1h</span
 								>
