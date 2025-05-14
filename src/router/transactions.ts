@@ -3,7 +3,6 @@ const routes = {
 	meta: {
 		requiresAuth: true,
 	},
-	// redirect: '/invoices/list',
 	component: () => import('@/layouts/full/FullLayout.vue'),
 	children: [
 		{

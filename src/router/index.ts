@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import authRoutes from './auth'
+import accountRoutes from './account'
 import machinesRoutes from './machines'
 import invoicesRoutes from './invoices'
 import transactionsRoutes from './transactions'
@@ -15,6 +16,7 @@ export const router = createRouter({
 		// 	component: () => import('@/views/authentication/Error.vue'),
 		// },
 		authRoutes,
+		accountRoutes,
 		machinesRoutes,
 		invoicesRoutes,
 		transactionsRoutes,
