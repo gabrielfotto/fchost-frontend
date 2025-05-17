@@ -6,10 +6,9 @@ import { ACC_KEY } from '@/constants'
 const cookie = useCookie()
 
 const api = axios.create({
-	baseURL: 'http://localhost:8080/',
-	headers: {
-		'X-Api-Key': 'beb81bdc06d706629f9c966ac497be7c',
-	},
+	baseURL: import.meta.env.DEV
+		? 'http://localhost:8080/'
+		: 'https://io.ottodev.com.br/fchost/api',
 })
 
 api.interceptors.request.use(async request => {
@@ -20,6 +19,19 @@ api.interceptors.request.use(async request => {
 
 	return request
 })
+
+export async function createAccount({
+	name,
+	email,
+}: {
+	name: string
+	email: string
+}) {
+	await api.post('accounts', {
+		name,
+		email,
+	})
+}
 
 export async function validateAccountApiKey(apiKey: string) {
 	const { data } = await api.post(

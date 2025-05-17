@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 
@@ -8,28 +8,36 @@ import { useNotify } from '@/composables/useNotify'
 
 import { useAuthStore } from '@/stores/auth'
 
-const route = useRoute()
+import { createAccount } from '@/services/api'
+
+const router = useRouter()
 const authStore = useAuthStore()
 const { notifyError } = useNotify()
 
-const isAccCreated = computed(() => route.query?.acc)
-
 const validationSchema = yup.object({
-	apiKey: yup.string().required('Campo obrigatório'),
+	name: yup.string().required('Campo obrigatório'),
+	email: yup.string().email('Email inválido').required('Campo obrigatório'),
 })
 
 const { meta, errors, defineField, handleSubmit, isSubmitting } = useForm({
 	validationSchema,
 	initialValues: {
-		apiKey: '',
+		name: '',
+		email: '',
 	},
 })
 
-const [apiKey] = defineField('apiKey')
+const [name] = defineField('name')
+const [email] = defineField('email')
 
-const handleSubmitForm = handleSubmit(async ({ apiKey }) => {
+const handleSubmitForm = handleSubmit(async ({ name, email }) => {
 	try {
-		await authStore.login(apiKey)
+		await createAccount({
+			name,
+			email,
+		})
+
+		router.push('/?acc=1')
 	} catch (error: any) {
 		notifyError(error?.response?.data?.message || 'Error')
 	}
@@ -50,49 +58,45 @@ const handleSubmitForm = handleSubmit(async ({ apiKey }) => {
 				<v-form @submit.prevent="handleSubmitForm">
 					<v-row>
 						<v-col cols="12">
-							<p class="font-weight-medium mb-2">API Key *</p>
+							<p class="font-weight-medium mb-2">Nome *</p>
 							<v-text-field
-								v-model="apiKey"
+								v-model="name"
 								autofocus
 								clearable
 								class="rounded-r-0"
 								density="compact"
-								placeholder="Digite sua API Key"
-								:error-messages="errors.apiKey"
+								placeholder="Digite seu nome"
+								:error-messages="errors.name"
 								:disabled="isSubmitting"
 							>
-								<template #append>
-									<v-btn
-										color="primary"
-										height="48"
-										width="100%"
-										class="rounded-l-0"
-										type="submit"
-										:disabled="!meta.valid"
-										:loading="isSubmitting"
-									>
-										<v-icon>mdi-arrow-right</v-icon>
-									</v-btn>
-								</template>
 							</v-text-field>
 						</v-col>
-					</v-row>
-
-					<v-row v-if="isAccCreated">
 						<v-col cols="12">
-							<v-alert density="comfortable" type="success" variant="outlined">
-								<template #title>
-									<h4 class="font-weight-medium mb-2">Conta criada!</h4>
-								</template>
-								<template #text>
-									<div class="d-flex flex-column">
-										<p class="fs-15">
-											Sua API Key foi enviada para o seu e-mail. Não se esqueça
-											de verificar a caixa de spam ou lixo eletrônico.
-										</p>
-									</div>
-								</template>
-							</v-alert>
+							<p class="font-weight-medium mb-2">Email *</p>
+							<v-text-field
+								v-model="email"
+								clearable
+								class="rounded-r-0"
+								density="compact"
+								placeholder="Digite seu email"
+								:error-messages="errors.email"
+								:disabled="isSubmitting"
+								@keypress.enter="handleSubmitForm"
+							>
+							</v-text-field>
+						</v-col>
+						<v-col cols="12">
+							<div class="d-flex justify-end">
+								<v-btn
+									color="primary"
+									type="submit"
+									size="large"
+									:disabled="!meta.valid"
+									:loading="isSubmitting"
+								>
+									<span>Criar conta</span>
+								</v-btn>
+							</div>
 						</v-col>
 					</v-row>
 
@@ -101,7 +105,7 @@ const handleSubmitForm = handleSubmit(async ({ apiKey }) => {
 							<v-icon color="primary" class="mr-2"
 								>mdi-information-outline</v-icon
 							>
-							<span class="font-weight-medium">Não tem conta?</span>
+							<span class="font-weight-medium">Já tem uma conta?</span>
 						</div>
 						<v-btn
 							block
@@ -109,9 +113,9 @@ const handleSubmitForm = handleSubmit(async ({ apiKey }) => {
 							variant="tonal"
 							color="primary"
 							size="large"
-							to="/account/create"
+							to="/"
 							:disabled="isSubmitting"
-							>Criar conta</v-btn
+							>Autenticar</v-btn
 						>
 					</v-card>
 				</v-form>

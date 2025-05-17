@@ -3,6 +3,7 @@ export type TMachine = {
 	name: string
 	vcpu: number
 	ram: number
+	storage: number
 	pricePerHour: number
 }
 

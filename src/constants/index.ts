@@ -1,1 +1,1 @@
-export const ACC_KEY = '_fcpay_acc'
+export const ACC_KEY = '_fchost_acc'

@@ -42,9 +42,9 @@ const allowedEndDates = computed(() => (d: any) => {
 
 const statusOptions = [
 	'Todos',
-	'Aprovada',
 	'Pendente',
 	'Rejeitada',
+	'Aprovada',
 	'Processada',
 ]
 
@@ -275,7 +275,7 @@ onMounted(async () => {
 
 					<template #item.amount="{ item }">
 						<span class="font-weight-medium">{{
-							toCurrency(item.amount)
+							toCurrency(item.amount, { currency: 'USD' })
 						}}</span>
 					</template>
 

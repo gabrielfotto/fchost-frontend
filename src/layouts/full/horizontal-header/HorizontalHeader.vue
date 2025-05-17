@@ -9,7 +9,6 @@ import { GridDotsIcon, Menu2Icon } from 'vue-tabler-icons'
 import Logo from '../logo/Logo.vue'
 
 // dropdown imports
-import LanguageDD from '../vertical-header/LanguageDD.vue'
 import Navigations from '../vertical-header/Navigations.vue'
 import RightMobileSidebar from '../vertical-header/RightMobileSidebar.vue'
 
@@ -96,7 +95,7 @@ onMounted(async () => {
 					:style="{ height: '36px' }"
 				>
 					<span class="font-weight-medium"
-						>Saldo: {{ toCurrency(accountBalance) }}</span
+						>Saldo: {{ toCurrency(accountBalance, { currency: 'USD' }) }}</span
 					>
 				</v-chip>
 				<v-btn
