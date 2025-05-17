@@ -164,7 +164,10 @@ onMounted(async () => {
 
 							<template #item.pricePerHour="{ item }">
 								<span>{{
-									toCurrency(item.machine.pricePerHour, { currency: 'USD' })
+									toCurrency(item.machine.pricePerHour, {
+										currency: 'USD',
+										fractionDigits: 4,
+									})
 								}}</span>
 							</template>
 
