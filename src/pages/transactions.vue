@@ -9,6 +9,7 @@ const { notifyError, notifySuccess } = useNotify()
 
 import type { TTransaction } from '@/types/transaction'
 import { toCurrency } from '@/utils/to-currency'
+import { ETransactionType } from '@/enums/transaction-types'
 
 const transactionsHeaders = ref<any>([
 	// {
@@ -32,11 +33,11 @@ const transactionsHeaders = ref<any>([
 		sortable: false,
 		align: 'end',
 	},
-	// {
-	// 	title: 'Ações',
-	// 	key: 'actions',
-	// 	sortable: false,
-	// },
+	{
+		title: '',
+		key: 'invoice',
+		sortable: false,
+	},
 ])
 
 const transactions = ref<TTransaction[]>()
@@ -51,6 +52,15 @@ async function handleFetchInvoices() {
 		notifyError(error?.response?.data?.message || 'Error to get transactions')
 	} finally {
 		isFetchingInvoices.value = false
+	}
+}
+
+function formatTransactionType(_type: ETransactionType) {
+	switch (_type) {
+		case ETransactionType.CREDIT:
+			return 'Crédito'
+		case ETransactionType.DEBIT:
+			return 'Débito'
 	}
 }
 
@@ -88,13 +98,17 @@ onMounted(async () => {
 					</template>
 
 					<template #item.type="{ item }">
-						<span>{{ item.type }}</span>
+						<span>{{ formatTransactionType(item.type) }}</span>
 					</template>
 
 					<template #item.value="{ item }">
 						<span class="font-weight-medium">{{
 							toCurrency(item.value, { currency: 'USD', fractionDigits: 4 })
 						}}</span>
+					</template>
+
+					<template #item.invoice="{ item }">
+						<v-btn size="small" variant="tonal" color="primary">Fatura</v-btn>
 					</template>
 				</v-data-table>
 			</v-sheet>
