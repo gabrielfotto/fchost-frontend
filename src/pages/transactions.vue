@@ -65,19 +65,7 @@ onMounted(async () => {
 			<div class="d-flex flex-wrap justify-space-between align-center mb-6">
 				<div>
 					<h1 class="text-h4 font-weight-medium mb-1">Transações</h1>
-					<!-- <span class="fs-14">
-						Gerencie suas faturas e acompanhe os pagamentos
-					</span> -->
 				</div>
-
-				<!-- <v-btn
-					color="primary"
-					variant="flat"
-					prepend-icon="mdi-plus"
-					to="/invoices/create"
-				>
-					Nova Fatura
-				</v-btn> -->
 			</div>
 
 			<v-sheet class="rounded" border="sm">

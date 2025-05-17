@@ -149,18 +149,9 @@ onMounted(async () => {
 						Gerencie suas faturas e acompanhe os pagamentos
 					</span>
 				</div>
-
-				<!-- <v-btn
-					color="primary"
-					variant="flat"
-					prepend-icon="mdi-plus"
-					to="/invoices/create"
-				>
-					Nova Fatura
-				</v-btn> -->
 			</div>
 
-			<v-sheet class="pa-4 mb-6 rounded" border="sm">
+			<!-- <v-sheet class="pa-4 mb-6 rounded" border="sm">
 				<v-row align="center">
 					<v-col cols="12" sm="6" md="3">
 						<v-label class="mb-2 font-weight-medium">Status</v-label>
@@ -248,7 +239,7 @@ onMounted(async () => {
 						></v-text-field>
 					</v-col>
 				</v-row>
-			</v-sheet>
+			</v-sheet> -->
 
 			<v-sheet class="rounded" border="sm">
 				<v-data-table
