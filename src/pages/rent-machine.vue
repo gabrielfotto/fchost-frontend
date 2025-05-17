@@ -48,7 +48,7 @@ onMounted(async () => {
 		<v-sheet class="pa-8 rounded-lg mx-auto" elevation="10">
 			<div class="d-flex flex-wrap justify-space-between align-center mb-6">
 				<div>
-					<h1 class="text-h4 font-weight-medium mb-1">Máquinas</h1>
+					<h1 class="text-h4 font-weight-medium mb-1">Machines</h1>
 				</div>
 
 				<div :style="{ height: '36px' }"></div>

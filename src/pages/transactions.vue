@@ -17,17 +17,17 @@ const transactionsHeaders = ref<any>([
 	// 	sortable: false,
 	// },
 	{
-		title: 'Data',
+		title: 'Date',
 		key: 'createdAt',
 		sortable: false,
 	},
 	{
-		title: 'Tipo',
+		title: 'Type',
 		key: 'type',
 		sortable: false,
 	},
 	{
-		title: 'Valor',
+		title: 'Amount',
 		key: 'value',
 		sortable: false,
 		align: 'end',
@@ -64,7 +64,7 @@ onMounted(async () => {
 		<v-sheet class="pa-8 rounded mx-auto" elevation="10">
 			<div class="d-flex flex-wrap justify-space-between align-center mb-6">
 				<div>
-					<h1 class="text-h4 font-weight-medium mb-1">Transações</h1>
+					<h1 class="text-h4 font-weight-medium mb-1">Transactions</h1>
 				</div>
 			</div>
 
