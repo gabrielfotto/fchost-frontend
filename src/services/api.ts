@@ -27,7 +27,7 @@ export async function createAccount({
 	name: string
 	email: string
 }) {
-	return await api.post('accounts', {
+	await api.post('accounts', {
 		name,
 		email,
 	})

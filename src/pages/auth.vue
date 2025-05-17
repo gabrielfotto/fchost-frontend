@@ -86,13 +86,9 @@ const handleSubmitForm = handleSubmit(async ({ apiKey }) => {
 								</template>
 								<template #text>
 									<div class="d-flex flex-column">
-										<p class="fs-16">
-											Sua chave de API foi enviada para o seu e-mail.
-										</p>
-										<br />
-										<p class="fs-16">
-											Não se esqueça de verificar também a caixa de spam ou lixo
-											eletrônico.
+										<p class="fs-15">
+											Sua API Key foi enviada para o seu e-mail. Não se esqueça
+											de verificar a caixa de spam ou lixo eletrônico.
 										</p>
 									</div>
 								</template>
