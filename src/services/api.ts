@@ -20,6 +20,19 @@ api.interceptors.request.use(async request => {
 	return request
 })
 
+export async function createAccount({
+	name,
+	email,
+}: {
+	name: string
+	email: string
+}) {
+	return await api.post('accounts', {
+		name,
+		email,
+	})
+}
+
 export async function validateAccountApiKey(apiKey: string) {
 	const { data } = await api.post(
 		'accounts/api-key/validate',

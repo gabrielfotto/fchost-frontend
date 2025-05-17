@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 
@@ -7,6 +8,9 @@ import { useNotify } from '@/composables/useNotify'
 
 import { useAuthStore } from '@/stores/auth'
 
+import { createAccount } from '@/services/api'
+
+const router = useRouter()
 const authStore = useAuthStore()
 const { notifyError } = useNotify()
 
@@ -28,6 +32,12 @@ const [email] = defineField('email')
 
 const handleSubmitForm = handleSubmit(async ({ name, email }) => {
 	try {
+		await createAccount({
+			name,
+			email,
+		})
+
+		router.push('/?acc=1')
 	} catch (error: any) {
 		notifyError(error?.response?.data?.message || 'Error')
 	}
@@ -71,6 +81,7 @@ const handleSubmitForm = handleSubmit(async ({ name, email }) => {
 								placeholder="Digite seu email"
 								:error-messages="errors.email"
 								:disabled="isSubmitting"
+								@keypress.enter="handleSubmitForm"
 							>
 							</v-text-field>
 						</v-col>
@@ -79,6 +90,7 @@ const handleSubmitForm = handleSubmit(async ({ name, email }) => {
 								<v-btn
 									color="primary"
 									type="submit"
+									size="large"
 									:disabled="!meta.valid"
 									:loading="isSubmitting"
 								>
@@ -88,7 +100,7 @@ const handleSubmitForm = handleSubmit(async ({ name, email }) => {
 						</v-col>
 					</v-row>
 
-					<v-card class="mt-6 pa-4" variant="outlined">
+					<v-card class="mt-6" variant="flat">
 						<div class="d-flex align-center mb-2">
 							<v-icon color="primary" class="mr-2"
 								>mdi-information-outline</v-icon
@@ -102,6 +114,7 @@ const handleSubmitForm = handleSubmit(async ({ name, email }) => {
 							color="primary"
 							size="large"
 							to="/"
+							:disabled="isSubmitting"
 							>Autenticar</v-btn
 						>
 					</v-card>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 
@@ -7,8 +8,11 @@ import { useNotify } from '@/composables/useNotify'
 
 import { useAuthStore } from '@/stores/auth'
 
+const route = useRoute()
 const authStore = useAuthStore()
 const { notifyError } = useNotify()
+
+const isAccCreated = computed(() => route.query?.acc)
 
 const validationSchema = yup.object({
 	apiKey: yup.string().required('Campo obrigatório'),
@@ -74,7 +78,29 @@ const handleSubmitForm = handleSubmit(async ({ apiKey }) => {
 						</v-col>
 					</v-row>
 
-					<v-card class="mt-6 pa-4" variant="outlined">
+					<v-row v-if="isAccCreated">
+						<v-col cols="12">
+							<v-alert density="comfortable" type="success" variant="outlined">
+								<template #title>
+									<h4 class="font-weight-medium mb-2">Conta criada!</h4>
+								</template>
+								<template #text>
+									<div class="d-flex flex-column">
+										<p class="fs-16">
+											Sua chave de API foi enviada para o seu e-mail.
+										</p>
+										<br />
+										<p class="fs-16">
+											Não se esqueça de verificar também a caixa de spam ou lixo
+											eletrônico.
+										</p>
+									</div>
+								</template>
+							</v-alert>
+						</v-col>
+					</v-row>
+
+					<v-card class="mt-6" variant="flat">
 						<div class="d-flex align-center mb-2">
 							<v-icon color="primary" class="mr-2"
 								>mdi-information-outline</v-icon
