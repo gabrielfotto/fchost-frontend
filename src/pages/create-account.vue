@@ -16,7 +16,7 @@ const { notifyError } = useNotify()
 
 const validationSchema = yup.object({
 	name: yup.string().required('Field required'),
-	email: yup.string().email('Email inválido').required('Field required'),
+	email: yup.string().email('Invalid email').required('Field required'),
 })
 
 const { meta, errors, defineField, handleSubmit, isSubmitting } = useForm({
