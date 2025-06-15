@@ -108,7 +108,13 @@ onMounted(async () => {
 					</template>
 
 					<template #item.invoice="{ item }">
-						<v-btn size="small" variant="tonal" color="primary">Fatura</v-btn>
+						<v-btn
+							v-if="item.invoice"
+							size="small"
+							variant="flat"
+							color="primary"
+							>Invoice</v-btn
+						>
 					</template>
 				</v-data-table>
 			</v-sheet>
