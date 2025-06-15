@@ -74,7 +74,7 @@ onMounted(async () => {
 											size="small"
 											variant="outlined"
 											class="mr-2 font-weight-medium"
-											>Disponível</v-chip
+											>Available</v-chip
 										>
 									</div>
 									<v-divider class="my-2"></v-divider>
@@ -106,7 +106,7 @@ onMounted(async () => {
 										<v-col cols="4">
 											<div>
 												<div class="text-subtitle-1 font-weight-medium">
-													Disco
+													Storage
 												</div>
 												<div class="text-body-1 d-flex align-center">
 													<v-icon class="mr-1">mdi-harddisk</v-icon>
@@ -136,7 +136,7 @@ onMounted(async () => {
 										<div
 											class="text-caption text-medium-emphasis font-weight-medium"
 										>
-											por hora
+											hour
 										</div>
 									</div>
 									<v-divider vertical class="mx-6"></v-divider>
@@ -151,7 +151,7 @@ onMounted(async () => {
 										<div
 											class="text-caption text-medium-emphasis font-weight-medium"
 										>
-											por mês
+											month
 										</div>
 									</div>
 								</div>
@@ -173,7 +173,7 @@ onMounted(async () => {
 										"
 									>
 										<v-icon left class="mr-1">mdi-cloud-plus</v-icon>
-										Alugar
+										Rent
 									</v-btn>
 								</div>
 							</v-col>

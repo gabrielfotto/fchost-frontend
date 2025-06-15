@@ -43,7 +43,7 @@ const rentedMachinesHeaders = ref<any>([
 		align: 'end',
 	},
 	{
-		title: 'Totsl Spent',
+		title: 'Total Spent',
 		key: 'totalUsageCost',
 		sortable: false,
 		align: 'end',

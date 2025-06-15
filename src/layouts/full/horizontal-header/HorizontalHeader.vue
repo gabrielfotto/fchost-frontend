@@ -64,7 +64,8 @@ onMounted(async () => {
 			"
 		>
 			<div class="hidden-md-and-down">
-				<Logo />
+				<!-- <Logo /> -->
+				<span class="text-h2 font-weight-medium mr-4">FCHost</span>
 			</div>
 			<v-btn
 				class="hidden-lg-and-up ms-3"
