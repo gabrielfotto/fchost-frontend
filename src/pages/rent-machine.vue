@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { getMachines, rentMachine } from '@/services/api'
+import { getMachines, rentMachine } from '@/services/api/resources'
 import type { TMachine } from '@/types/machines'
 
 import { useNotify } from '@/composables/useNotify'

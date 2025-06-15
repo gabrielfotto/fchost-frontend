@@ -8,18 +8,18 @@ import * as yup from 'yup'
 import { toCurrency } from '@/utils/to-currency'
 import { useNotify } from '@/composables/useNotify'
 
-import { addAccountBalance } from '@/services/api'
+import { addAccountBalance } from '@/services/api/resources'
 
 const { notifyError, notifySuccess } = useNotify()
 
 const router = useRouter()
 
 const validationSchema = yup.object({
-	amount: yup.string().required('Campo obrigatório'),
-	cardNumber: yup.string().required('Campo obrigatório'),
-	expiryDate: yup.string().required('Campo obrigatório'),
-	cvv: yup.string().required('Campo obrigatório'),
-	cardholderName: yup.string().required('Campo obrigatório'),
+	amount: yup.string().required('Field required'),
+	cardNumber: yup.string().required('Field required'),
+	expiryDate: yup.string().required('Field required'),
+	cvv: yup.string().required('Field required'),
+	cardholderName: yup.string().required('Field required'),
 })
 
 const { meta, errors, defineField, handleSubmit, isSubmitting } = useForm({

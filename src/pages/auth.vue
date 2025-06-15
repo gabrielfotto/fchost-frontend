@@ -15,7 +15,7 @@ const { notifyError } = useNotify()
 const isAccCreated = computed(() => route.query?.acc)
 
 const validationSchema = yup.object({
-	apiKey: yup.string().required('Campo obrigatório'),
+	apiKey: yup.string().required('Field required'),
 })
 
 const { meta, errors, defineField, handleSubmit, isSubmitting } = useForm({
@@ -106,7 +106,7 @@ const handleSubmitForm = handleSubmit(async ({ apiKey }) => {
 						<v-btn
 							block
 							class="mt-6"
-							variant="tonal"
+							variant="flat"
 							color="primary"
 							size="large"
 							to="/account/create"

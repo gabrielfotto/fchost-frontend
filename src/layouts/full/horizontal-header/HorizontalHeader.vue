@@ -2,7 +2,7 @@
 import { ref, watch, onMounted } from 'vue'
 import { useCustomizerStore } from '@/stores/customizer'
 
-import { getAccountBalance } from '@/services/api'
+import { getAccountBalance } from '@/services/api/resources'
 
 // Icon Imports
 import { GridDotsIcon, Menu2Icon } from 'vue-tabler-icons'

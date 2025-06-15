@@ -8,15 +8,15 @@ import { useNotify } from '@/composables/useNotify'
 
 import { useAuthStore } from '@/stores/auth'
 
-import { createAccount } from '@/services/api'
+import { createAccount } from '@/services/api/resources'
 
 const router = useRouter()
 const authStore = useAuthStore()
 const { notifyError } = useNotify()
 
 const validationSchema = yup.object({
-	name: yup.string().required('Campo obrigatório'),
-	email: yup.string().email('Email inválido').required('Campo obrigatório'),
+	name: yup.string().required('Field required'),
+	email: yup.string().email('Email inválido').required('Field required'),
 })
 
 const { meta, errors, defineField, handleSubmit, isSubmitting } = useForm({

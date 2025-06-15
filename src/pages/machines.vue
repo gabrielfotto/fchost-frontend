@@ -5,7 +5,7 @@ import type { TAccountMachine } from '@/types/machines'
 import {
 	getAccountRentedMachines,
 	registerAccountMachineUsage,
-} from '@/services/api'
+} from '@/services/api/resources'
 
 import { useNotify } from '@/composables/useNotify'
 import { toCurrency } from '@/utils/to-currency'
