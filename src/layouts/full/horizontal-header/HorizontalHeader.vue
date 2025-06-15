@@ -90,7 +90,7 @@ onMounted(async () => {
 
 			<div class="d-flex align-center">
 				<v-chip
-					color="success"
+					:color="accountBalance === 0 ? 'error' : 'success'"
 					variant="flat"
 					label
 					:style="{ height: '36px' }"
