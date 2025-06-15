@@ -4,7 +4,7 @@ import { format, isAfter, isBefore } from 'date-fns'
 
 import { useNotify } from '@/composables/useNotify'
 
-import api from '@/services/api/resources'
+import api from '@/services/api'
 import type { TInvoice } from '@/types/invoices'
 
 import { toCurrency } from '@/utils/to-currency'

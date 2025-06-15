@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { format } from 'date-fns'
 
-import api from '@/services/api/resources'
+import api from '@/services/api'
 import { useNotify } from '@/composables/useNotify'
 
 const { notifyError, notifySuccess } = useNotify()
