@@ -1,24 +1,4 @@
-import axios from 'axios'
-
-import { useCookie } from '@/composables/useCookie'
-import { ACC_KEY } from '@/constants'
-
-const cookie = useCookie()
-
-const api = axios.create({
-	baseURL: import.meta.env.DEV
-		? 'http://localhost:8080/'
-		: 'https://io.ottodev.com.br/fchost/api',
-})
-
-api.interceptors.request.use(async request => {
-	const { apiKey } = cookie.get(ACC_KEY) || {}
-	if (apiKey) {
-		request.headers['X-Api-Key'] = apiKey
-	}
-
-	return request
-})
+import api from '.'
 
 export async function createAccount({
 	name,
@@ -106,5 +86,3 @@ export async function registerAccountMachineUsage(
 
 	return data
 }
-
-export default api

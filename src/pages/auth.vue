@@ -15,7 +15,7 @@ const { notifyError } = useNotify()
 const isAccCreated = computed(() => route.query?.acc)
 
 const validationSchema = yup.object({
-	apiKey: yup.string().required('Campo obrigatório'),
+	apiKey: yup.string().required('Field required'),
 })
 
 const { meta, errors, defineField, handleSubmit, isSubmitting } = useForm({
@@ -41,8 +41,8 @@ const handleSubmitForm = handleSubmit(async ({ apiKey }) => {
 		<v-sheet width="560" class="pa-8 rounded" elevation="10">
 			<div class="d-flex flex-wrap justify-center align-center mb-6">
 				<div class="text-center">
-					<h1 class="text-h4 font-weight-medium mb-1">Autenticação Gateway</h1>
-					<span class="fs-14">Insira sua API Key para acessar o sistema</span>
+					<h1 class="text-h4 font-weight-medium mb-1">Authentication</h1>
+					<span class="fs-14">Enter your API Key to access the system</span>
 				</div>
 			</div>
 
@@ -57,7 +57,7 @@ const handleSubmitForm = handleSubmit(async ({ apiKey }) => {
 								clearable
 								class="rounded-r-0"
 								density="compact"
-								placeholder="Digite sua API Key"
+								placeholder="Enter your API Key"
 								:error-messages="errors.apiKey"
 								:disabled="isSubmitting"
 							>
@@ -82,13 +82,13 @@ const handleSubmitForm = handleSubmit(async ({ apiKey }) => {
 						<v-col cols="12">
 							<v-alert density="comfortable" type="success" variant="outlined">
 								<template #title>
-									<h4 class="font-weight-medium mb-2">Conta criada!</h4>
+									<h4 class="font-weight-medium mb-2">Account created!</h4>
 								</template>
 								<template #text>
 									<div class="d-flex flex-column">
 										<p class="fs-15">
-											Sua API Key foi enviada para o seu e-mail. Não se esqueça
-											de verificar a caixa de spam ou lixo eletrônico.
+											Your API Key has been sent to your email. Don't forget to
+											check your spam or junk folder.
 										</p>
 									</div>
 								</template>
@@ -101,17 +101,17 @@ const handleSubmitForm = handleSubmit(async ({ apiKey }) => {
 							<v-icon color="primary" class="mr-2"
 								>mdi-information-outline</v-icon
 							>
-							<span class="font-weight-medium">Não tem conta?</span>
+							<span class="font-weight-medium">Don't have an account?</span>
 						</div>
 						<v-btn
 							block
 							class="mt-6"
-							variant="tonal"
+							variant="flat"
 							color="primary"
 							size="large"
 							to="/account/create"
 							:disabled="isSubmitting"
-							>Criar conta</v-btn
+							>Create account</v-btn
 						>
 					</v-card>
 				</v-form>

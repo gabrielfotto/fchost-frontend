@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { router } from '@/router'
 import { useCookie } from '@/composables/useCookie'
 
-import { validateAccountApiKey } from '@/services/api'
+import { validateAccountApiKey } from '@/services/api/resources'
 import { ACC_KEY } from '@/constants'
 
 import type { TAccount } from '@/types/account'

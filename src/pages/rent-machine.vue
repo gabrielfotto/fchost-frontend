@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
-import { getMachines, rentMachine } from '@/services/api'
+import { getMachines, rentMachine } from '@/services/api/resources'
 import type { TMachine } from '@/types/machines'
 
 import { useNotify } from '@/composables/useNotify'
@@ -48,7 +48,7 @@ onMounted(async () => {
 		<v-sheet class="pa-8 rounded-lg mx-auto" elevation="10">
 			<div class="d-flex flex-wrap justify-space-between align-center mb-6">
 				<div>
-					<h1 class="text-h4 font-weight-medium mb-1">Máquinas</h1>
+					<h1 class="text-h4 font-weight-medium mb-1">Machines</h1>
 				</div>
 
 				<div :style="{ height: '36px' }"></div>
@@ -74,7 +74,7 @@ onMounted(async () => {
 											size="small"
 											variant="outlined"
 											class="mr-2 font-weight-medium"
-											>Disponível</v-chip
+											>Available</v-chip
 										>
 									</div>
 									<v-divider class="my-2"></v-divider>
@@ -106,7 +106,7 @@ onMounted(async () => {
 										<v-col cols="4">
 											<div>
 												<div class="text-subtitle-1 font-weight-medium">
-													Disco
+													Storage
 												</div>
 												<div class="text-body-1 d-flex align-center">
 													<v-icon class="mr-1">mdi-harddisk</v-icon>
@@ -136,7 +136,7 @@ onMounted(async () => {
 										<div
 											class="text-caption text-medium-emphasis font-weight-medium"
 										>
-											por hora
+											hour
 										</div>
 									</div>
 									<v-divider vertical class="mx-6"></v-divider>
@@ -151,7 +151,7 @@ onMounted(async () => {
 										<div
 											class="text-caption text-medium-emphasis font-weight-medium"
 										>
-											por mês
+											month
 										</div>
 									</div>
 								</div>
@@ -173,7 +173,7 @@ onMounted(async () => {
 										"
 									>
 										<v-icon left class="mr-1">mdi-cloud-plus</v-icon>
-										Alugar
+										Rent
 									</v-btn>
 								</div>
 							</v-col>

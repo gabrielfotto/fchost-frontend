@@ -5,7 +5,7 @@ import type { TAccountMachine } from '@/types/machines'
 import {
 	getAccountRentedMachines,
 	registerAccountMachineUsage,
-} from '@/services/api'
+} from '@/services/api/resources'
 
 import { useNotify } from '@/composables/useNotify'
 import { toCurrency } from '@/utils/to-currency'
@@ -14,7 +14,7 @@ const { notifyError, notifySuccess } = useNotify()
 
 const rentedMachinesHeaders = ref<any>([
 	{
-		title: 'Nome',
+		title: 'Name',
 		key: 'name',
 		sortable: false,
 	},
@@ -31,25 +31,25 @@ const rentedMachinesHeaders = ref<any>([
 		align: 'end',
 	},
 	{
-		title: 'Disco',
+		title: 'Disk',
 		key: 'storage',
 		sortable: false,
 		align: 'end',
 	},
 	{
-		title: 'Preço/hora',
+		title: 'Price/Hour',
 		key: 'pricePerHour',
 		sortable: false,
 		align: 'end',
 	},
 	{
-		title: 'Total de Gasto',
+		title: 'Total Spent',
 		key: 'totalUsageCost',
 		sortable: false,
 		align: 'end',
 	},
 	{
-		title: 'Total de Horas',
+		title: 'Total Hours',
 		key: 'totalUsageHours',
 		sortable: false,
 		align: 'end',
@@ -116,7 +116,7 @@ onMounted(async () => {
 		<v-sheet class="pa-8 rounded-lg mx-auto" elevation="10">
 			<div class="d-flex flex-wrap justify-space-between align-center mb-6">
 				<div>
-					<h1 class="text-h4 font-weight-medium mb-1">Máquinas Alugadas</h1>
+					<h1 class="text-h4 font-weight-medium mb-1">Rented Machines</h1>
 				</div>
 
 				<v-btn
@@ -125,7 +125,7 @@ onMounted(async () => {
 					prepend-icon="mdi-plus"
 					to="/machines/rent"
 				>
-					Alugar Máquina
+					Rent Machine
 				</v-btn>
 			</div>
 
@@ -185,7 +185,7 @@ onMounted(async () => {
 									>-</span
 								>
 								<span v-else-if="parseFloat(String(item.totalUsageHours)) < 1"
-									>Menos de 1h</span
+									>Less than 1h</span
 								>
 								<span v-else-if="Math.floor(item.totalUsageHours) === 1"
 									>{{ Math.floor(item.totalUsageHours) }} h</span

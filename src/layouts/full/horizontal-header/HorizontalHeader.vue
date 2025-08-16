@@ -2,7 +2,7 @@
 import { ref, watch, onMounted } from 'vue'
 import { useCustomizerStore } from '@/stores/customizer'
 
-import { getAccountBalance } from '@/services/api'
+import { getAccountBalance } from '@/services/api/resources'
 
 // Icon Imports
 import { GridDotsIcon, Menu2Icon } from 'vue-tabler-icons'
@@ -64,7 +64,8 @@ onMounted(async () => {
 			"
 		>
 			<div class="hidden-md-and-down">
-				<Logo />
+				<!-- <Logo /> -->
+				<span class="text-h2 font-weight-medium mr-4">FCHost</span>
 			</div>
 			<v-btn
 				class="hidden-lg-and-up ms-3"
@@ -89,13 +90,14 @@ onMounted(async () => {
 
 			<div class="d-flex align-center">
 				<v-chip
-					color="success"
+					:color="accountBalance === 0 ? 'error' : 'success'"
 					variant="flat"
 					label
 					:style="{ height: '36px' }"
 				>
 					<span class="font-weight-medium"
-						>Saldo: {{ toCurrency(accountBalance, { currency: 'USD' }) }}</span
+						>Balance:
+						{{ toCurrency(accountBalance, { currency: 'USD' }) }}</span
 					>
 				</v-chip>
 				<v-btn
@@ -105,7 +107,7 @@ onMounted(async () => {
 					variant="tonal"
 				>
 					<v-icon>mdi-plus</v-icon>
-					<span>Adicionar</span>
+					<span>Add</span>
 				</v-btn>
 			</div>
 

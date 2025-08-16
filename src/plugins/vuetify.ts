@@ -38,12 +38,12 @@ export default createVuetify({
 	},
 	directives,
 
-	locale: {
-		locale: 'pt',
-		messages: {
-			pt,
-		},
-	},
+	// locale: {
+	// 	locale: 'pt',
+	// 	messages: {
+	// 		pt,
+	// 	},
+	// },
 
 	theme: {
 		defaultTheme: 'BLUE_THEME',

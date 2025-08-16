@@ -18,17 +18,17 @@ const transactionsHeaders = ref<any>([
 	// 	sortable: false,
 	// },
 	{
-		title: 'Data',
+		title: 'Date',
 		key: 'createdAt',
 		sortable: false,
 	},
 	{
-		title: 'Tipo',
+		title: 'Type',
 		key: 'type',
 		sortable: false,
 	},
 	{
-		title: 'Valor',
+		title: 'Amount',
 		key: 'value',
 		sortable: false,
 		align: 'end',
@@ -74,20 +74,8 @@ onMounted(async () => {
 		<v-sheet class="pa-8 rounded mx-auto" elevation="10">
 			<div class="d-flex flex-wrap justify-space-between align-center mb-6">
 				<div>
-					<h1 class="text-h4 font-weight-medium mb-1">Transações</h1>
-					<!-- <span class="fs-14">
-						Gerencie suas faturas e acompanhe os pagamentos
-					</span> -->
+					<h1 class="text-h4 font-weight-medium mb-1">Transactions</h1>
 				</div>
-
-				<!-- <v-btn
-					color="primary"
-					variant="flat"
-					prepend-icon="mdi-plus"
-					to="/invoices/create"
-				>
-					Nova Fatura
-				</v-btn> -->
 			</div>
 
 			<v-sheet class="rounded" border="sm">
@@ -120,7 +108,13 @@ onMounted(async () => {
 					</template>
 
 					<template #item.invoice="{ item }">
-						<v-btn size="small" variant="tonal" color="primary">Fatura</v-btn>
+						<v-btn
+							v-if="item.invoice"
+							size="small"
+							variant="flat"
+							color="primary"
+							>Invoice</v-btn
+						>
 					</template>
 				</v-data-table>
 			</v-sheet>

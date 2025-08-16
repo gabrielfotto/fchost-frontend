@@ -18,7 +18,7 @@ const isBeginDateMenuActive = ref()
 const isEndDateMenuActive = ref()
 
 const filters = reactive({
-	status: 'Todos',
+	status: 'All',
 	beginDate: null,
 	endDate: null,
 	search: null,
@@ -40,13 +40,7 @@ const allowedEndDates = computed(() => (d: any) => {
 	return !isAfter(d, new Date())
 })
 
-const statusOptions = [
-	'Todos',
-	'Pendente',
-	'Rejeitada',
-	'Aprovada',
-	'Processada',
-]
+const statusOptions = ['All', 'Pending', 'Rejected', 'Approved', 'Processed']
 
 const invoicesHeaders = ref<any>([
 	// {
@@ -55,23 +49,23 @@ const invoicesHeaders = ref<any>([
 	// 	sortable: false,
 	// },
 	{
-		title: 'Data',
+		title: 'Date',
 		key: 'createdAt',
 		sortable: false,
 	},
 	{
-		title: 'Descrição',
+		title: 'Description',
 		key: 'description',
 		sortable: false,
 	},
 	{
-		title: 'Valor',
+		title: 'Amount',
 		key: 'amount',
 		sortable: false,
 		align: 'end',
 	},
 	{
-		title: 'Cartão',
+		title: 'Card',
 		key: 'cardLast4Digits',
 		sortable: false,
 		align: 'end',
@@ -82,7 +76,7 @@ const invoicesHeaders = ref<any>([
 		sortable: false,
 	},
 	{
-		title: 'Ações',
+		title: 'Actions',
 		key: 'actions',
 		sortable: false,
 	},
@@ -110,15 +104,15 @@ const getStatusColor = (status: string) => {
 const getStatusText = (status: string) => {
 	switch (status) {
 		case EInvoiceStatus.APPROVED:
-			return 'Aprovada'
+			return 'Approved'
 		case EInvoiceStatus.PENDING:
-			return 'Pendente'
+			return 'Pending'
 		case EInvoiceStatus.REJECTED:
-			return 'Rejeitada'
+			return 'Rejected'
 		case EInvoiceStatus.PROCESSED:
-			return 'Processada'
+			return 'Processed'
 		default:
-			return 'Pendente'
+			return 'Pending'
 	}
 }
 
@@ -144,23 +138,12 @@ onMounted(async () => {
 		<v-sheet class="pa-8 rounded mx-auto" elevation="10">
 			<div class="d-flex flex-wrap justify-space-between align-center mb-6">
 				<div>
-					<h1 class="text-h4 font-weight-medium mb-1">Faturas</h1>
-					<span class="fs-14">
-						Gerencie suas faturas e acompanhe os pagamentos
-					</span>
+					<h1 class="text-h4 font-weight-medium mb-1">Invoices</h1>
+					<span class="fs-14"> Manage your invoices and track payments </span>
 				</div>
-
-				<!-- <v-btn
-					color="primary"
-					variant="flat"
-					prepend-icon="mdi-plus"
-					to="/invoices/create"
-				>
-					Nova Fatura
-				</v-btn> -->
 			</div>
 
-			<v-sheet class="pa-4 mb-6 rounded" border="sm">
+			<!-- <v-sheet class="pa-4 mb-6 rounded" border="sm">
 				<v-row align="center">
 					<v-col cols="12" sm="6" md="3">
 						<v-label class="mb-2 font-weight-medium">Status</v-label>
@@ -248,7 +231,7 @@ onMounted(async () => {
 						></v-text-field>
 					</v-col>
 				</v-row>
-			</v-sheet>
+			</v-sheet> -->
 
 			<v-sheet class="rounded" border="sm">
 				<v-data-table

@@ -8,18 +8,18 @@ import * as yup from 'yup'
 import { toCurrency } from '@/utils/to-currency'
 import { useNotify } from '@/composables/useNotify'
 
-import { addAccountBalance } from '@/services/api'
+import { addAccountBalance } from '@/services/api/resources'
 
 const { notifyError, notifySuccess } = useNotify()
 
 const router = useRouter()
 
 const validationSchema = yup.object({
-	amount: yup.string().required('Campo obrigatório'),
-	cardNumber: yup.string().required('Campo obrigatório'),
-	expiryDate: yup.string().required('Campo obrigatório'),
-	cvv: yup.string().required('Campo obrigatório'),
-	cardholderName: yup.string().required('Campo obrigatório'),
+	amount: yup.string().required('Field required'),
+	cardNumber: yup.string().required('Field required'),
+	expiryDate: yup.string().required('Field required'),
+	cvv: yup.string().required('Field required'),
+	cardholderName: yup.string().required('Field required'),
 })
 
 const { meta, errors, defineField, handleSubmit, isSubmitting } = useForm({
@@ -55,9 +55,9 @@ const handleSubmitForm = handleSubmit(async values => {
 		<v-sheet class="pa-8 rounded-lg mx-auto" max-width="580" elevation="10">
 			<div class="d-flex flex-wrap justify-space-between align-center mb-6">
 				<div>
-					<h1 class="text-h4 font-weight-medium mb-1">Adicionar saldo</h1>
+					<h1 class="text-h4 font-weight-medium mb-1">Add balance</h1>
 					<span class="fs-14"
-						>Preencha os dados abaixo para processar um novo pagamento</span
+						>Fill in the details below to process a new payment</span
 					>
 				</div>
 			</div>
@@ -65,7 +65,7 @@ const handleSubmitForm = handleSubmit(async values => {
 			<v-form @submit.prevent="handleSubmitForm">
 				<v-row>
 					<v-col cols="12">
-						<v-label class="mb-2 font-weight-medium">Valor</v-label>
+						<v-label class="mb-2 font-weight-medium">Amount</v-label>
 						<CurrencyField
 							v-model="amount"
 							density="compact"
@@ -93,10 +93,8 @@ const handleSubmitForm = handleSubmit(async values => {
 
 					<v-col cols="12">
 						<v-sheet class="pa-4 rounded" border="sm">
-							<p class="font-weight-medium mb-4">Dados do Cartão</p>
-							<v-label class="mb-2 font-weight-medium"
-								>Número do Cartão</v-label
-							>
+							<p class="font-weight-medium mb-4">Card Details</p>
+							<v-label class="mb-2 font-weight-medium">Card Number</v-label>
 							<v-text-field
 								v-model="cardNumber"
 								v-maska="'#### #### #### ####'"
@@ -113,7 +111,7 @@ const handleSubmitForm = handleSubmit(async values => {
 							<v-row>
 								<v-col cols="6">
 									<v-label class="mb-2 font-weight-medium"
-										>Data de Expiração</v-label
+										>Expiration Date</v-label
 									>
 									<v-text-field
 										v-model="expiryDate"
@@ -143,7 +141,7 @@ const handleSubmitForm = handleSubmit(async values => {
 								</v-col>
 							</v-row>
 
-							<v-label class="mb-2 font-weight-medium">Nome no Cartão</v-label>
+							<v-label class="mb-2 font-weight-medium">Name on Card</v-label>
 							<v-text-field
 								v-model="cardholderName"
 								density="compact"
@@ -197,7 +195,7 @@ const handleSubmitForm = handleSubmit(async values => {
 						:disabled="!meta.valid"
 						:loading="isSubmitting"
 					>
-						Processar Pagamento
+						Process Payment
 					</v-btn>
 				</div>
 			</v-form>
